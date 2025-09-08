@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intermediate HTML</title>
+<!--reusing the same styles😅-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Intermediate HTML</h1>
+<!--Step 5. Tables-->
+<table>
+  <thead>
+  <!--
+  tr - table row
+  th - table header
+  td - table data?
+  -->
+  <tr>
+    <!--it's the first row so all of them are headers for weekdays -->
+    <th>Time\Weekday</th>
+    <th>Monday</th>
+    <th>Tuesday</th>
+    <th>Wednesday</th>
+    <th>Thursday</th>
+    <th>Friday</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <!-- first cell is time so its also header for all next rows -->
+    <th>11:00-11:50</th>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>Operating Systems</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <th>12:00-12:50</th>
+    <td>Operating Systems</td>
+    <td>-</td>
+    <td>-</td>
+    <td>Operating Systems</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <th>14:00-16:00</th>
+    <td>WEB Technologies 1</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <th>14:00-15:00</th>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>Design and Analysis of Algorithms</td>
+  </tr>
+  <tr>
+    <th>15:00-16:00</th>
+    <td>-</td>
+    <td>-</td>
+    <td>WEB Technologies 1</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <th>16:00-18:00</th>
+    <td>-</td>
+    <td>Russian Language 1</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <th>18:00-20:00</th>
+    <td>Design and Analysis of Algorithms</td>
+    <td>-</td>
+    <td>Design and Analysis of Algorithms</td>
+    <td>Introduction to Finance</td>
+    <td>Introduction to Finance</td>
+  </tr>
+  <tr>
+    <th>20:00-22:00</th>
+    <td>Russian Language 1</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <th>21:00-22:00</th>
+    <td>-</td>
+    <td>Russian Language 1</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  </tbody>
+  <!--Am I able to do a part-time job with that schedule? 🥲-->
+</table>
+<!--Step 6. Using Tables for Layout (Optional Challenge
+idk if that counts
+-->
+<div>
+  <table>
+    <tbody>
+    <tr>
+      <h3 >Something</h3>
+      <td class="list-column">
+        <ul>
+          <li><strong>Spaghetti Bolognese</strong></li>
+          <li><strong>Chicken Caesar Salad</strong></li>
+          <li><strong>Margherita Pizza</strong></li>
+          <li><strong>Classic Cheeseburger</strong></li>
+          <li><strong>Vegetable Stir-fry</strong></li>
+        </ul>
+      </td>
+      <td width="50%" class="image-column">
+        <p>My second year of university started off with a bang! We had an online lesson to kick things off, and then we headed to campus for our first in-person class. There was a two-hour break between lessons, so we grabbed some pizza at the Mega mall. Afterward, we had our introductory lecture on algorithms. The class was scheduled to end at 8:00 PM, but our lecturer let us go early, and we were all super grateful for that.</p>
+        <!--Step 7. Typing Emojis. there is 3 emojis if I'm still able to count-->
+        <p>Today I'm feeling so pumped to be back! 🤩 It's great to see everyone again and get back into the rhythm of learning. I'm especially excited about the new courses we'll be taking this semester. I'm a bit nervous about the workload, but mostly I'm feeling optimistic and ready to tackle the challenges ahead. 💪 I know it's going to be a great year, and I can't wait to see what we'll learn. 📚</p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<!--Step8. HTML Forms-->
+<form style="margin: 1em;">
+  <!--margin because why not-->
+  <label  for="fname">First name: </label>
+  <input type="text" name="fname" id="fname">
+  <label for="lname">Last name:</label>
+    <input type="text" name="lname" id="lname">
+  <label for="email">Email:</label>
+  <input type="text" name="email" id="email">
+  <label for="colour">Colour: </label>
+    <input type="color" name="colour" id="colour">
+  <input type="submit" value="Submit">
+  <button><a style="color: #ffffff;" href="index.html">Previous Page</a></button>
+</form>
+</body>
+<!--And the last step is to deploy the website, if you are seeing this via browsers page source then its completed-->
+</html>
