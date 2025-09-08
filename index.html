@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Explorer</title>
+  <!-- Pico.css CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--pico-background-color);
+      transition: background-color 0.3s ease;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    main.container {
+      background-color: var(--pico-card-background-color);
+      box-shadow: var(--pico-box-shadow);
+      border-radius: var(--pico-border-radius);
+      padding: 2rem;
+      max-width: 960px;
+      width: 100%;
+      border: var(--pico-border-width) solid var(--pico-border-color);
+    }
+
+    .site-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: var(--pico-color);
+    }
+
+    .site-title .highlight {
+      color: var(--pico-primary);
+    }
+
+    .file-icon {
+      color: var(--pico-muted-color);
+      width: 2rem;
+      height: 2rem;
+      flex-shrink: 0;
+    }
+
+    .folder-icon {
+      color: var(--pico-primary);
+      width: 2rem;
+      height: 2rem;
+      flex-shrink: 0;
+    }
+
+    .file-item, .folder-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      background-color: var(--pico-card-sectioning-background-color);
+      border-radius: var(--pico-border-radius);
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      text-decoration: none;
+      color: var(--pico-color);
+      border: 1px solid var(--pico-border-color);
+    }
+
+    .file-item:hover, .folder-item:hover {
+      background-color: var(--pico-secondary-background);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-color: var(--pico-primary);
+    }
+
+    .file-item.disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .file-item.disabled:hover {
+      transform: none;
+      box-shadow: none;
+      background-color: var(--pico-card-sectioning-background-color);
+      border-color: var(--pico-border-color);
+    }
+
+    #file-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem;
+      background-color: var(--pico-card-sectioning-background-color);
+      border-radius: var(--pico-border-radius);
+      border: 1px solid var(--pico-border-color);
+    }
+
+    .breadcrumb-item {
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: calc(var(--pico-border-radius) / 2);
+      transition: all 0.2s ease;
+      color: var(--pico-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb-item:hover {
+      background-color: var(--pico-primary-background);
+      color: var(--pico-primary);
+    }
+
+    .breadcrumb-separator {
+      color: var(--pico-muted-color);
+      margin: 0 0.25rem;
+    }
+
+    .back-button {
+      margin-bottom: 1rem;
+    }
+
+    .item-name {
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+      .site-title {
+        font-size: 2rem;
+      }
+
+      #file-list {
+        grid-template-columns: 1fr;
+      }
+
+      body {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<main class="container">
+  <h1 class="site-title">
+    <span class="highlight">Site</span> Explorer
+  </h1>
+
+  <!-- Breadcrumb Navigation -->
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <div id="breadcrumb-content"></div>
+  </nav>
+
+  <!-- Back Button -->
+  <div id="back-button-container"></div>
+
+  <!-- File and Folder List -->
+  <section id="file-list"></section>
+</main>
+
+<script>
+  // File structure - update this to reflect your actual website structure
+  const fileStructure = {
+    'Assignments': {
+      '1st_week': {
+        'index.html': '1st_week/index.html',
+        'inter.html': '1st_week/inter.html',
+        'style.css': '1st_week/style.css',
+      },
+    },
+    'index.html': 'index.html',
+  };
+
+  let currentPath = [];
+
+  // Function to navigate to a folder
+  function navigateToFolder(folderName) {
+    currentPath.push(folderName);
+    renderExplorer();
+  }
+
+  // Function to navigate to a specific path
+  function navigateToPath(pathIndex) {
+    currentPath = currentPath.slice(0, pathIndex + 1);
+    renderExplorer();
+  }
+
+  // Function to go back one level
+  function goBack() {
+    currentPath.pop();
+    renderExplorer();
+  }
+
+  // Function to go to root
+  function goToRoot() {
+    currentPath = [];
+    renderExplorer();
+  }
+
+  // Function to open a file
+  function openFile(filePath) {
+    window.location.href = filePath;
+  }
+
+  // Function to render the breadcrumbs
+  function renderBreadcrumbs() {
+    const breadcrumbContainer = document.getElementById('breadcrumb-content');
+    breadcrumbContainer.innerHTML = '';
+
+    // Home link
+    const homeElement = document.createElement('span');
+    homeElement.textContent = 'Home';
+    homeElement.className = 'breadcrumb-item';
+    homeElement.onclick = goToRoot;
+    breadcrumbContainer.appendChild(homeElement);
+
+    // Path elements
+    currentPath.forEach((folder, index) => {
+      // Separator
+      const separator = document.createElement('span');
+      separator.textContent = '/';
+      separator.className = 'breadcrumb-separator';
+      breadcrumbContainer.appendChild(separator);
+
+      // Folder link
+      const folderElement = document.createElement('span');
+      folderElement.textContent = folder;
+      folderElement.className = 'breadcrumb-item';
+      folderElement.onclick = () => navigateToPath(index);
+      breadcrumbContainer.appendChild(folderElement);
+    });
+  }
+
+  // Function to render the back button
+  function renderBackButton() {
+    const backButtonContainer = document.getElementById('back-button-container');
+    backButtonContainer.innerHTML = '';
+
+    if (currentPath.length > 0) {
+      const backButton = document.createElement('button');
+      backButton.className = 'back-button';
+      backButton.onclick = goBack;
+      backButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem; height: 1rem; margin-right: 0.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Back
+      `;
+      backButtonContainer.appendChild(backButton);
+    }
+  }
+
+  // Function to render the file list
+  function renderFileList() {
+    const fileListContainer = document.getElementById('file-list');
+    fileListContainer.innerHTML = '';
+
+    // Get the current directory contents
+    let currentDir = fileStructure;
+    currentPath.forEach(folder => {
+      currentDir = currentDir[folder];
+    });
+
+    // Render folders and files
+    for (const item in currentDir) {
+      const itemElement = document.createElement('div');
+      const isFolder = typeof currentDir[item] === 'object';
+      const isHtml = item.endsWith('.html');
+
+      if (isFolder) {
+        itemElement.className = 'folder-item';
+        itemElement.onclick = () => navigateToFolder(item);
+        itemElement.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="folder-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M2 6a2 2 0 012-2h5l2 2h4a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+          </svg>
+          <span class="item-name">${item}</span>
+        `;
+      } else {
+        itemElement.className = 'file-item';
+
+        if (isHtml) {
+          itemElement.onclick = () => openFile(currentDir[item]);
+        } else {
+          itemElement.classList.add('disabled');
+          itemElement.onclick = (e) => e.preventDefault();
+        }
+
+        itemElement.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="file-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+          </svg>
+          <span class="item-name">${item}</span>
+        `;
+      }
+
+      fileListContainer.appendChild(itemElement);
+    }
+  }
+
+  // Main render function
+  function renderExplorer() {
+    renderBreadcrumbs();
+    renderBackButton();
+    renderFileList();
+  }
+
+  // Initial render
+  renderExplorer();
+</script>
+</body>
+</html>
