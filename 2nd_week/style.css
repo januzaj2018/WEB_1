@@ -1,0 +1,97 @@
+body{
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+a {
+    color: #0060B6;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #00A0C6;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+img {
+    display: block;
+    margin: auto;
+}
+
+div.centered {
+    display: flex;
+    justify-content: center;
+}
+div.form
+{
+    display: block;
+    text-align: center;
+}
+form
+{
+    width: 50%;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+form input{
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.content-box {
+    background-color: white;
+    padding: 15px;
+    margin: auto;
+    max-width: 75%;
+    border-radius: 8px;
+    border: 1px solid hsl(216, 12%, 84%);
+}
+a#aitu-link{
+    color: black;
+    text-decoration: none;
+}
+
+#styled-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+#black-hole-img{
+    width:50%;
+    height:50%;
+}
+#styled-table th, #styled-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+a::before {
+    content: "🔗";
+}
+.navbar nav{
+    display: flex;
+    justify-content: space-between;
+}
+nav button{
+    transition-property: background-color;
+    transition-duration: 0.4s;
+    transition-delay: 0.1s;
+}
+nav button:hover {
+    background-color: #00A0C6;
+    color: white;
+    cursor: pointer;
+}
