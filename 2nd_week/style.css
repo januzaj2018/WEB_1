@@ -187,7 +187,6 @@ nav button {
     font-size: 1em;
     font-weight: 600;
     margin: 0 0.5em;
-    box-shadow: 0 2px 8px rgba(58, 134, 255, 0.08);
     transition: background 0.3s, transform 0.2s;
 }
 

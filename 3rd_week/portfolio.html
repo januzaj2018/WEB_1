@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- Task 4: Portfolio Page (Separate Page) -->
+<header class="navbar"> <!-- Flexbox Navigation Bar -->
+    <div class="logo">
+        <img src="data:image/png;base64,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" alt="Logo" class="logo-img">
+    </div>
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#info">Info</a>
+        <a href="#footer">Footer</a>
+    </nav>
+</header>
+<main class="portfolio-main" style="margin: auto">
+    <div class="portfolio-grid"> <!-- CSS Grid for main layout -->
+        <section class="portfolio-projects" id="projects"> <!-- Projects area (left) -->
+            <div class="project-card">
+                <div class="project-content"> <!-- Flexbox inside card -->
+                    <h4>Flexbox & Grid Demo</h4>
+                    <p>Modern responsive layout using Flexbox and CSS Grid.</p>
+                    <button>View Project</button>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-content">
+                    <h4>Gallery Showcase</h4>
+                    <p>Interactive image gallery with hover captions.</p>
+                    <button>View Project</button>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-content">
+                    <h4>Personal Blog</h4>
+                    <p>Clean blog layout with sidebar and footer.</p>
+                    <button>View Project</button>
+                </div>
+            </div>
+        </section>
+        <aside class="portfolio-sidebar" id="info"> <!-- Info/Sidebar (right) -->
+            <h3>About the Author</h3>
+            <p>Hi! I'm Aibek, a student at AITU learning about web development, design, and modern UI/UX.</p>
+            <ul>
+                <li>HTML, CSS, JavaScript</li>
+                <li>Responsive Design</li>
+                <li>UI/UX Principles</li>
+            </ul>
+        </aside>
+    </div>
+</main>
+<footer class="portfolio-footer" id="footer"> <!-- Footer spans bottom -->
+    &copy; 2025 Aibek Nazarbek | Portfolio Page
+</footer>
+</body>
+</html>
+
